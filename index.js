@@ -12,7 +12,7 @@ app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 
 const corsOptions = {
-  origin: process.env.origin || 'http://localhost:3000',
+  origin: 'https://apewannaliveforever.online',
 };
 
 app.use(cors(corsOptions));
