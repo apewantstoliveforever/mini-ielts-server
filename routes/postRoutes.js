@@ -19,4 +19,7 @@ router.put('/:id', postsController.updatePost);
 // Route để xóa bài viết
 router.delete('/:id', postsController.deletePost);
 
+//Route để upload image trong bài viết
+router.post('/uploadImage', postsController.uploadImage);
+
 module.exports = router;
