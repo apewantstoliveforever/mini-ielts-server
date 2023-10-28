@@ -12,14 +12,18 @@ app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 
 const corsOptions = {
-  origin: 'https://apewannaliveforever.online',
+  origin: ['http://localhost:3005', "https://apewannaliveforever.online"] 
 };
 
 app.use(cors(corsOptions));
 
 // Import các tệp route
-const postsRouter = require('./routes/postRoutes');
+const mangasRouter = require('./routes/mangaRoutes');
+// Sử dụng các route trong ứng dụng
+app.use('/manga', mangasRouter);
 
+// Import các tệp route
+const postsRouter = require('./routes/postRoutes');
 // Sử dụng các route trong ứng dụng
 app.use('/posts', postsRouter);
 

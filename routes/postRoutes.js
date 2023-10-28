@@ -5,7 +5,7 @@ const router = express.Router();
 const postsController = require('../controllers/postsController');
 
 // Route để hiển thị danh sách bài viết
-router.get('/', postsController.getPosts);
+router.get('/page/:page', postsController.getPosts);
 
 // Route để tạo bài viết mới
 router.post('/', postsController.createPost);
@@ -22,4 +22,8 @@ router.delete('/:id', postsController.deletePost);
 //Route để upload image trong bài viết
 router.post('/uploadImage', postsController.uploadImage);
 
+//Route hiện danh sách bài vieert reading
+router.get('/reading/:page', postsController.getReading);
+//Route hiện danh sách bài vieert listening
+router.get('/listening/:page', postsController.getListening);
 module.exports = router;

@@ -1,0 +1,70 @@
+
+GET http://localhost:3002/posts
+###
+GET http://localhost:3002/posts/f2390270-b
+
+###
+POST http://localhost:3002/posts
+content-type: application/json
+
+{
+    "post_type": "reading",
+    "post_title": "sample",
+    "reading_text": "ssssssssssssssss",
+    "post_sections": [
+        {
+            "section_type": "multiple",
+            "section_title": "sample",
+            "section_detail": "sample",
+            "section_questions": [
+                {
+                    "question_text": "sample 1",
+                    "question_answer": "A",
+                    "question_options": {"A": "sssss", "B": "bbbbbb", "C": "ffdav", "D": "sa"}
+                },
+                {
+                    "question_text": "sample 2",
+                    "question_answer": "B",
+                    "question_options": {"A": "sssss", "B": "bbbbbb", "C": "ffdav", "D": "sa"}
+                },
+                {
+                    "question_text": "sample 3",
+                    "question_answer": "C",
+                    "question_options": {"A": "sssss", "B": "bbbbbb", "C": "ffdav", "D": "sa"}
+                },
+                {
+                    "question_text": "sample 4",
+                    "question_answer": "D",
+                    "question_options": {"A": "sssss", "B": "bbbbbb", "C": "ffdav", "D": "sa"}
+                }
+            ]
+        },
+         {
+            "section_type": "multiple",
+            "section_title": "sample",
+            "section_detail": "sample",
+            "section_questions": [
+                {
+                    "question_text": "sample 1",
+                    "question_answer": "A",
+                    "question_options": {"A": "sssss", "B": "bbbbbb", "C": "ffdav", "D": "sa"}
+                },
+                {
+                    "question_text": "sample 2",
+                    "question_answer": "B",
+                    "question_options": {"A": "sssss", "B": "bbbbbb", "C": "ffdav", "D": "sa"}
+                },
+                {
+                    "question_text": "sample 3",
+                    "question_answer": "C",
+                    "question_options": {"A": "sssss", "B": "bbbbbb", "C": "ffdav", "D": "sa"}
+                },
+                {
+                    "question_text": "sample 4",
+                    "question_answer": "D",
+                    "question_options": {"A": "sssss", "B": "bbbbbb", "C": "ffdav", "D": "sa"}
+                }
+            ]
+        }
+    ]
+}
