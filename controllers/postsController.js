@@ -10,6 +10,7 @@ const db = mysql.createConnection({
   user: 'root',
   password: '0007',
   database: 'ielts',
+  reconnect: true, // Sử dụng kết nối lại tự động
 });
 
 db.connect((err) => {
@@ -22,82 +23,21 @@ db.connect((err) => {
 
 //lưu file vào folder test trên destop
 const storage = multer.diskStorage({
-  //dùng uuid để tạo tên cho file
-
   destination: function (req, file, cb) {
-    cb(null, 'C:/Users/JakeHu/Desktop/test');
+    // Define the destination directory where uploaded files will be stored
+    cb(null, './test'); // You should create this directory
   },
   filename: function (req, file, cb) {
-    cb(null, uuidv4() + `${file.originalname.split('.')[1]}`);
-    //cb(null, uuidv4() + '.jpg');
+    // Define the filename of the uploaded file
+    cb(null, Date.now() + '-' + file.originalname);
   }
 });
-const upload = multer({ storage: storage }).single('file');
-//logic để upload image và lưu path vào database
 
-const uploadImage = (req, res) => {
-  upload(req, res, function (err) {
-    if (err instanceof multer.MulterError) {
-      // A Multer error occurred when uploading.
-      console.error('Error uploading file: ' + err);
-      return res.status(500).json({ error: 'Error uploading file' });
-    } else if (err) {
-      // An unknown error occurred when uploading.
-      console.error('Error uploading file: ' + err);
-      return res.status(500).json({ error: 'Error uploading file' });
-    }
-    // Everything went fine.
-    const path = req.file.path;
-
-    console.log(path);
-    //const postId = req.body.postId;
-    //random id cho image
-    const imageId = req.file.filename;
-    db.query('INSERT INTO images (path, image_id) VALUES (?, ?)', [path, imageId], (err, result) => {
-      if (err) {
-        console.error('Error inserting into database: ' + err);
-        return res.status(500).json({ error: 'Database error' });
-      }
-      return res.status(201).json({ message: 'Image uploaded successfully', imageId: result.insertId });
-    });
-  });
-}
-
-// Logic để upload file
-const uploadFile = (req, res) => {
-  upload(req, res, function (err) {
-    if (err instanceof multer.MulterError) {
-      // A Multer error occurred when uploading.
-      console.error('Error uploading file: ' + err);
-      return res.status(500).json({ error: 'Error uploading file' });
-    } else if (err) {
-      // An unknown error occurred when uploading.
-      console.error('Error uploading file: ' + err);
-      return res.status(500).json({ error: 'Error uploading file' });
-    }
-    // Everything went fine.
-    return res.json({ message: 'File uploaded successfully' });
-  });
+const uploadAudio = (req, res) => {
+  console.log(req.file);
+  res.send('File uploaded successfully');
+  console.log("rece9ved")
 };
-
-//upload image from ckeditor
-const uploadImageCKEditor = (req, res) => {
-  upload(req, res, function (err) {
-    if (err instanceof multer.MulterError) {
-      // A Multer error occurred when uploading.
-      console.error('Error uploading file: ' + err);
-      return res.status(500).json({ error: 'Error uploading file' });
-    } else if (err) {
-      // An unknown error occurred when uploading.
-      console.error('Error uploading file: ' + err);
-      return res.status(500).json({ error: 'Error uploading file' });
-    }
-    // Everything went fine.
-    const path = req.file.path;
-    console.log(path);
-    return res.json({ message: 'File uploaded successfully', url: path });
-  });
-}
 
 // Logic để hiển thị danh sách bài viết
 const getPosts = (req, res) => {
@@ -360,7 +300,7 @@ module.exports = {
   getPostById,
   updatePost,
   deletePost,
-  uploadImage,
   getListening,
   getReading,
+  uploadAudio
 };
