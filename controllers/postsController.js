@@ -25,7 +25,9 @@ db.connect((err) => {
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     // Define the destination directory where uploaded files will be stored
-    cb(null, 'C:/Users/JakeHu/Desktop/test'); // You should create this directory
+    //cb(null, 'C:/Users/JakeHu/Desktop/test'); // You should create this directory
+    cb(null, '/home/jake/Desktop'); // Đường dẫn trên Linux
+
   },
   filename: function (req, file, cb) {
     // Define the filename of the uploaded file
