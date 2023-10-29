@@ -19,11 +19,11 @@ router.put('/:id', postsController.updatePost);
 // Route để xóa bài viết
 router.delete('/:id', postsController.deletePost);
 
-//Route để upload image trong bài viết
-router.post('/uploadImage', postsController.uploadImage);
-
 //Route hiện danh sách bài vieert reading
 router.get('/reading/:page', postsController.getReading);
 //Route hiện danh sách bài vieert listening
 router.get('/listening/:page', postsController.getListening);
+
+//Route post file audio
+router.post('/uploadAudio', postsController.uploadAudio);
 module.exports = router;
