@@ -25,7 +25,7 @@ db.connect((err) => {
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     // Define the destination directory where uploaded files will be stored
-    cb(null, './test'); // You should create this directory
+    cb(null, 'C:/Users/JakeHu/Desktop/test'); // You should create this directory
   },
   filename: function (req, file, cb) {
     // Define the filename of the uploaded file
@@ -33,10 +33,36 @@ const storage = multer.diskStorage({
   }
 });
 
+// Giới hạn kích thước tệp tin tải lên thành 10MB
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
+});
+
+
+// Define an endpoint to handle CKFinder uploads
 const uploadAudio = (req, res) => {
-  console.log(req.file);
-  res.send('File uploaded successfully');
-  console.log("rece9ved")
+  console.log('uploading')
+  // Use the `upload` middleware to handle the file upload
+  upload.single('file')(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      // A Multer error occurred when uploading.
+      console.error('Error uploading file: ' + err);
+      return res.status(500).json({ error: 'Error uploading file' });
+    } else if (err) {
+      // An unknown error occurred when uploading.
+      console.error('Error uploading file: ' + err);
+      return res.status(500).json({ error: 'Error uploading file' });
+    }
+    // Everything went fine.
+    const path = req.file.path;
+    console.log(path);
+    // const postId = req.body.postId; (nếu bạn cần postId)
+    // Random id cho image
+    const imageId = req.file.filename;
+    console.log(imageId);
+    return res.json({ message: 'File uploaded successfully', linkId: imageId });
+  });
 };
 
 // Logic để hiển thị danh sách bài viết
@@ -71,8 +97,35 @@ const getPosts = (req, res) => {
 };
 
 
+const creatListenPost = (req, res) => {
+  // Use the `upload` middleware to handle the file upload
+  console.log('listening')
+  const jsonData = req.body;
+  console.log(req.json_data);
+  console.log(req.data);
+  console.log(jsonData);
+  upload.single('file')(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      // A Multer error occurred when uploading.
+      console.error('Error uploading file: ' + err);
+      return res.status(500).json({ error: 'Error uploading file' });
+    } else if (err) {
+      // An unknown error occurred when uploading.
+      console.error('Error uploading file: ' + err);
+      return res.status(500).json({ error: 'Error uploading file' });
+    }
+    // Everything went fine.
+    const path = req.file.path;
+    console.log(path);
+    // const postId = req.body.postId; (nếu bạn cần postId)
+    // Random id cho image
+    const imageId = req.file.filename;
+    console.log(imageId);
+  });
+};
+
 const createPost = (req, res) => {
-  console.log(req.body)
+  console.log('newpost')
   const { post_title, post_type, post_sections } = req.body;
   const post_id = uuidv4().slice(0, 10);
   // Tạo một hàm util để thêm một câu hỏi vào cơ sở dữ liệu
@@ -302,5 +355,6 @@ module.exports = {
   deletePost,
   getListening,
   getReading,
-  uploadAudio
+  uploadAudio,
+  creatListenPost
 };

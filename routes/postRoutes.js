@@ -26,4 +26,7 @@ router.get('/listening/:page', postsController.getListening);
 
 //Route post file audio
 router.post('/uploadAudio', postsController.uploadAudio);
+
+//Route post listening
+router.post('/creatListenPost', postsController.creatListenPost);
 module.exports = router;
