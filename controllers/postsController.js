@@ -29,7 +29,7 @@ setInterval(() => {
     }
     console.log('Connected to MySQL as id ' + db.threadId);
   });
-}, 5000);
+},  5 * 60 * 1000);
 
 //lưu file vào folder test trên destop
 const storage = multer.diskStorage({
