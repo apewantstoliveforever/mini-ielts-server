@@ -19,6 +19,7 @@ router.put('/:id', postsController.updatePost);
 // Route để xóa bài viết
 router.delete('/:id', postsController.deletePost);
 
+
 //Route hiện danh sách bài vieert reading
 router.get('/reading/:page', postsController.getReading);
 //Route hiện danh sách bài vieert listening

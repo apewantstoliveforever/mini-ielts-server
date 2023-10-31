@@ -21,6 +21,16 @@ db.connect((err) => {
   console.log('Connected to MySQL as id ' + db.threadId);
 });
 
+setInterval(() => {
+  db.query('SELECT 1', (err, results) => {
+    if (err) {
+      console.error('Error connecting to MySQL: ' + err.stack);
+      return;
+    }
+    console.log('Connected to MySQL as id ' + db.threadId);
+  });
+}, 5000);
+
 //lưu file vào folder test trên destop
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
