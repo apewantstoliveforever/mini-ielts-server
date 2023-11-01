@@ -22,14 +22,14 @@ db.connect((err) => {
 });
 
 setInterval(() => {
-  db.query('SELECT 1', (err, results) => {
+  db.ping((err) => {
     if (err) {
-      console.error('Error connecting to MySQL: ' + err.stack);
-      return;
+      console.error('Error pinging database:', err);
+    } else {
+      console.log('Database pinged successfully.');
     }
-    console.log('Connected to MySQL as id ' + db.threadId);
   });
-},  5 * 60 * 1000);
+}, 120000); // 60 seconds
 
 //lưu file vào folder test trên destop
 const storage = multer.diskStorage({
