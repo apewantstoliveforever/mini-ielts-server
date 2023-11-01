@@ -29,7 +29,7 @@ setInterval(() => {
       console.log('Database pinged successfully.');
     }
   });
-}, 120000); // 60 seconds
+}, 60000); // 60 seconds
 
 //lưu file vào folder test trên destop
 const storage = multer.diskStorage({

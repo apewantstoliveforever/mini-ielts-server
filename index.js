@@ -12,7 +12,7 @@ app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 
 const corsOptions = {
-  origin: ['http://localhost:3005', "https://apewannaliveforever.online"] 
+  origin: ['http://localhost:3005', "https://apewannaliveforever.online", "https://mini-cae-toeic.site"] 
 };
 
 app.use(cors(corsOptions));
