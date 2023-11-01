@@ -72,7 +72,6 @@ const uploadAudio = (req, res) => {
     // const postId = req.body.postId; (nếu bạn cần postId)
     // Random id cho image
     const imageId = req.file.filename;
-    console.log(imageId);
     return res.json({ message: 'File uploaded successfully', linkId: imageId });
   });
 };
@@ -113,9 +112,6 @@ const creatListenPost = (req, res) => {
   // Use the `upload` middleware to handle the file upload
   console.log('listening')
   const jsonData = req.body;
-  console.log(req.json_data);
-  console.log(req.data);
-  console.log(jsonData);
   upload.single('file')(req, res, function (err) {
     if (err instanceof multer.MulterError) {
       // A Multer error occurred when uploading.
@@ -238,7 +234,6 @@ const getPostById = (req, res) => {
       }
 
       const sections = sectionResults;
-      console.log(sections);
 
       // Lặp qua từng phần để lấy câu hỏi tương ứng
       Promise.all(sections.map((section) => {
