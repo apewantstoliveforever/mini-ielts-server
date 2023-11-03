@@ -5,31 +5,41 @@ const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 
 
-const db = mysql.createConnection({
+// const db = mysql.createConnection({
+//   host: 'localhost',
+//   user: 'root',
+//   password: '0007',
+//   database: 'ielts',
+//   reconnect: true, // Sử dụng kết nối lại tự động
+// });
+
+// db.connect((err) => {
+//   if (err) {
+//     console.error('Error connecting to MySQL: ' + err.stack);
+//     return;
+//   }
+//   console.log('Connected to MySQL as id ' + db.threadId);
+// });
+
+// setInterval(() => {
+//   db.ping((err) => {
+//     if (err) {
+//       console.error('Error pinging database:', err);
+//     } else {
+//       console.log('Database pinged successfully.');
+//     }
+//   });
+// }, 60000); // 60 seconds
+
+const db = mysql.createPool({
+  connectionLimit: 10, // Adjust this based on your needs
   host: 'localhost',
   user: 'root',
   password: '0007',
   database: 'ielts',
-  reconnect: true, // Sử dụng kết nối lại tự động
+  waitForConnections: true, // Whether the pool should wait for a connection to be released
+  queueLimit: 0, // Maximum number of connection requests the pool will queue
 });
-
-db.connect((err) => {
-  if (err) {
-    console.error('Error connecting to MySQL: ' + err.stack);
-    return;
-  }
-  console.log('Connected to MySQL as id ' + db.threadId);
-});
-
-setInterval(() => {
-  db.ping((err) => {
-    if (err) {
-      console.error('Error pinging database:', err);
-    } else {
-      console.log('Database pinged successfully.');
-    }
-  });
-}, 60000); // 60 seconds
 
 //lưu file vào folder test trên destop
 const storage = multer.diskStorage({
