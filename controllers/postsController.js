@@ -39,7 +39,26 @@ const db = mysql.createPool({
   database: 'ielts',
   waitForConnections: true, // Whether the pool should wait for a connection to be released
   queueLimit: 0, // Maximum number of connection requests the pool will queue
+  keepAlive: true,
 });
+
+// Your SQL query
+const yourQuery = 'SELECT * FROM posts WHERE post_id = "ddddd"';
+
+// Function to send the query to the MySQL server
+function sendQueryToServer() {
+  db.query(yourQuery, (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err);
+    } else {
+      console.log('Query executed successfully:', results);
+    }
+  });
+}
+
+// Schedule the query to run every 30 minutes (30 minutes * 60 seconds * 1000 milliseconds)
+const interval = 30 * 60 * 1000;
+setInterval(sendQueryToServer, interval);
 
 //lưu file vào folder test trên destop
 const storage = multer.diskStorage({
