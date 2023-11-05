@@ -41,20 +41,38 @@ const db = mysql.createPool({
   queueLimit: 0, // Maximum number of connection requests the pool will queue
   keepAlive: true,
 });
-
-// Your SQL query
-const yourQuery = 'SELECT * FROM posts WHERE post_id = "ddddd"';
-
-// Function to send the query to the MySQL server
 function sendQueryToServer() {
-  db.query(yourQuery, (err, results) => {
+  // Define your SQL query here
+  const yourQuery = 'SELECT * FROM posts WHERE post_id = ?'; // Replace with your actual query
+
+  db.query(yourQuery, ['ddddd'], (err, results) => {
     if (err) {
       console.error('Error executing query:', err);
+      if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+        // Handle disconnection error
+        console.log('Database connection lost. Attempting to reconnect...');
+        // Attempt to reconnect to the database and retry the query
+        db.getConnection((reconnectErr, connection) => {
+          if (reconnectErr) {
+            console.error('Error reconnecting to the database:', reconnectErr);
+          } else {
+            connection.query(yourQuery, ['ddddd'], (retryErr, retryResults) => {
+              connection.release(); // Release the connection back to the pool
+              if (retryErr) {
+                console.error('Error executing retry query:', retryErr);
+              } else {
+                console.log('Query executed successfully after reconnection:', retryResults);
+              }
+            });
+          }
+        });
+      }
     } else {
       console.log('Query executed successfully:', results);
     }
   });
 }
+
 
 // Schedule the query to run every 30 minutes (30 minutes * 60 seconds * 1000 milliseconds)
 const interval = 30 * 60 * 1000;
