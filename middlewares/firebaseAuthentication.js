@@ -19,8 +19,10 @@ const authenticationMiddleware = async (req, res, next) => {
         return;
     }
     try {
-        //await auth.verifyIdToken(idToken);
-        req.user = await auth.getUser(auth.verifyIdToken(idToken).uid);
+        const decodedToken = await auth.verifyIdToken(idToken);
+        const userId = decodedToken.uid;
+        console.log(userId);
+        req.user = await auth.getUser(userId);
         console.log('check', req.user);
         next();
     } catch (error) {
