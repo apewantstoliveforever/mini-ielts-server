@@ -92,7 +92,7 @@ const register = async (req, res) => {
       // Convert base64 to Buffer
       const imageBuffer = Buffer.from(photoURL.split(',')[1], 'base64');
       const fileName = `profile.png`;
-       const userFolderPath = path.join(__dirname, `/home/jake/Desktop/mini-ielts/users/${userCredential.user.uid}/`);
+       const userFolderPath = `/home/jake/Desktop/mini-ielts/users/${userCredential.user.uid}/`;
        if (!fs.existsSync(userFolderPath)) {
          fs.mkdirSync(userFolderPath, { recursive: true });
        }
