@@ -96,8 +96,15 @@ const register = async (req, res) => {
       //fs.writeFileSync(fileName, imageBuffer);
       //wrte vao folder tren desktop
       //fs.writeFileSync(`C:/Users/JakeHu/Desktop/test/upload/${userCredential.user.uid}/${fileName}`, imageBuffer);
-      fs.writeFileSync(`/home/jake/Desktop/mini-ielts/users/${userCredential.user.uid}/${fileName}`, imageBuffer);
-      // Continue with the rest of your code after the image is saved
+       // Create user folder if it doesn't exist
+       const userFolderPath = path.join(__dirname, `/home/jake/Desktop/mini-ielts/users/${userId}`);
+       if (!fs.existsSync(userFolderPath)) {
+         fs.mkdirSync(userFolderPath, { recursive: true });
+       }
+ 
+       const filePath = path.join(userFolderPath, fileName);
+ 
+       fs.writeFileSync(filePath, imageBuffer);
 
     } catch (fileSaveError) {
       console.error('Error saving file:', fileSaveError);
