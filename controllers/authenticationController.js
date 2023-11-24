@@ -52,7 +52,7 @@ const login = async (req, res) => {
     console.log(token);
     console.log('User signed in:', user.uid, user.email, token);
 
-    return res.status(200).json({ uid: user.uid, email: user.email, token });
+    return res.status(200).json({ uid: user.uid, email: user.email, token, displayName: user.displayName, photoURL: user.photoURL });
   } catch (error) {
     console.error('Error signing in:', error);
     return res.status(401).json({ error: 'Invalid credentials' });
