@@ -108,7 +108,7 @@ const register = async (req, res) => {
         photoURL: `https://heroic-shark-loosely.ngrok-free.app/users/${userCredential.user.uid}/profile.png`
       });
       // resturn success
-      console('User created successfully', userCredential.user)
+      console.log('User created successfully', userCredential.user)
       return res.status(200).json({ uid: userCredential.user.uid, email: userCredential.user.email, displayName: userCredential.user.displayName, photoURL: userCredential.user.photoURL });
 
     } catch (fileSaveError) {
