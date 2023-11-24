@@ -91,19 +91,15 @@ const register = async (req, res) => {
     try {
       // Convert base64 to Buffer
       const imageBuffer = Buffer.from(photoURL.split(',')[1], 'base64');
-      //const fileName = `${userCredential.user.uid}.png`;
       const fileName = `profile.png`;
-      //fs.writeFileSync(fileName, imageBuffer);
-      //wrte vao folder tren desktop
-      //fs.writeFileSync(`C:/Users/JakeHu/Desktop/test/upload/${userCredential.user.uid}/${fileName}`, imageBuffer);
-       // Create user folder if it doesn't exist
-       const userFolderPath = path.join(__dirname, `/home/jake/Desktop/mini-ielts/users/${userCredential.user.uid}`);
+       const userFolderPath = path.join(__dirname, `/home/jake/Desktop/mini-ielts/users/${userCredential.user.uid}/`);
        if (!fs.existsSync(userFolderPath)) {
          fs.mkdirSync(userFolderPath, { recursive: true });
        }
  
        const filePath = path.join(userFolderPath, fileName);
- 
+       console.log(filePath);
+
        fs.writeFileSync(filePath, imageBuffer);
 
     } catch (fileSaveError) {
