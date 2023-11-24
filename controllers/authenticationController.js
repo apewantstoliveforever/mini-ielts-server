@@ -102,6 +102,14 @@ const register = async (req, res) => {
 
        fs.writeFileSync(filePath, imageBuffer);
 
+      // Update the user's profile
+      await updateProfile(userCredential.user, {
+        displayName,
+        photoURL: filePath,
+      });
+      // resturn success
+      return res.status(200).json({ uid: userCredential.user.uid, email: userCredential.user.email, displayName, photoURL: filePath });
+
     } catch (fileSaveError) {
       console.error('Error saving file:', fileSaveError);
       return res.status(500).json({ error: 'Error saving file' });
