@@ -1,6 +1,16 @@
 const { initializeApp } = require('firebase/app');
-const { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } = require('firebase/auth');
+const { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } = require('firebase/auth');
 const admin = require('firebase-admin');
+//import firebase/storage module
+const { getStorage, ref, uploadBytes, uploadBytesResumable, getDownloadURL, uploadString } = require('@firebase/storage');
+//const storage = getStorage();
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+const { profile } = require('console');
+
+
+
 
 // // Replace with the path to your service account key JSON file
 // const serviceAccount = require('../serviceAccountKey.json');
@@ -49,28 +59,53 @@ const login = async (req, res) => {
   }
 };
 
-// Register
+// Set up Multer storage
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, '"C:/Users/JakeHu/Desktop/test/upload"'); // Save files in the "uploads" directory
+  },
+  filename: function (req, file, cb) {
+    // Use the user's ID as the filename
+    const userId = req.user.uid; // Make sure you have access to the user's ID
+    cb(null, `${userId}.png`);
+  },
+});
+const upload = multer({ storage: storage });
+
+
 const register = async (req, res) => {
   const { email, password, displayName, photoURL } = req.body;
-  try {
-    console.log(email, password);
 
-    // Create a new user using email and password
+  try {
+    if (!photoURL) {
+      return res.status(400).json({ error: 'Photo URL is required' });
+    }
+
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
-    // Update the user's profile with displayName and photoURL (if provided)
-    if (displayName) {
-      await userCredential.user.updateProfile({ displayName });
-    }
-    if (photoURL) {
-      await userCredential.user.updateProfile({ photoURL });
+    if (!userCredential.user) {
+      console.error('Error creating user: User not returned');
+      return res.status(500).json({ error: 'User not returned' });
     }
 
-    console.log('User registered:', userCredential.user.uid);
-    return res.status(200).json();
+    try {
+      // Convert base64 to Buffer
+      const imageBuffer = Buffer.from(photoURL.split(',')[1], 'base64');
+      //const fileName = `${userCredential.user.uid}.png`;
+      const fileName = `profile.png`;
+      //fs.writeFileSync(fileName, imageBuffer);
+      //wrte vao folder tren desktop
+      //fs.writeFileSync(`C:/Users/JakeHu/Desktop/test/upload/${userCredential.user.uid}/${fileName}`, imageBuffer);
+      fs.writeFileSync(`/home/jake/Desktop/mini-ielts/users/${userCredential.user.uid}/${fileName}`, imageBuffer);
+      // Continue with the rest of your code after the image is saved
+
+    } catch (fileSaveError) {
+      console.error('Error saving file:', fileSaveError);
+      return res.status(500).json({ error: 'Error saving file' });
+    }
   } catch (error) {
     console.error('Error creating user:', error);
-    return res.status(500).json(error);
+    return res.status(500).json({ error: 'Error creating user' });
   }
 };
 
