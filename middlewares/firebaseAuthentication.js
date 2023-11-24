@@ -21,6 +21,7 @@ const authenticationMiddleware = async (req, res, next) => {
     try {
         await auth.verifyIdToken(idToken);
         req.user = { /* Extract user information from token */ };
+        console.log('check', req.user);
         next();
     } catch (error) {
         console.error(error);
