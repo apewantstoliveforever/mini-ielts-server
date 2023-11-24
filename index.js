@@ -1,12 +1,43 @@
 require('dotenv').config({
   path: process.env.NODE_ENV === 'production' ? '.env.prod' : '.env.dev'
 });
+const helmet = require('helmet');
 
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 5000;
 const cors = require('cors');
 const bodyParser = require('body-parser');
+
+
+const { initializeApp } = require('firebase/app');
+const { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } = require('firebase/auth');
+const admin = require('firebase-admin');
+
+// Replace with the path to your service account key JSON file
+const serviceAccount = require('./serviceAccountKey.json');
+
+// Initialize Firebase Admin SDK
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAPnRzT1qySbDDEfiEJBquEG25GA89W39c",
+    authDomain: "skilful-grove-269507.firebaseapp.com",
+    projectId: "skilful-grove-269507",
+    storageBucket: "skilful-grove-269507.appspot.com",
+    messagingSenderId: "432191319446",
+    appId: "1:432191319446:web:f7be058cde68661b4101b7",
+    measurementId: "G-7E2L3P37JW"
+  };
+
+// Initialize Firebase App
+initializeApp(firebaseConfig);
+// Initialize Firebase Auth
+const auth = getAuth();
+
+app.use(helmet());
 
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
@@ -26,6 +57,11 @@ app.use('/manga', mangasRouter);
 const postsRouter = require('./routes/postRoutes');
 // Sử dụng các route trong ứng dụng
 app.use('/posts', postsRouter);
+
+// Import các tệp route
+const loginIeltsRouter = require('./routes/loginIeltsRoutes');
+// Sử dụng các route trong ứng dụng
+app.use('/loginIeltsRoutes', loginIeltsRouter);
 
 // Import thư viện multer
 const multer = require('multer');
