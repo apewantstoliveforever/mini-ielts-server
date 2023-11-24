@@ -36,6 +36,7 @@ const login = async (req, res) => {
 
     // Access the signed-in user's data
     const user = userCredential.user;
+    console.log(user)
     //token
     const token = await user.getIdToken();
     console.log(token);
