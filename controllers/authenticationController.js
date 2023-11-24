@@ -105,10 +105,11 @@ const register = async (req, res) => {
       // Update the user's profile
       await updateProfile(userCredential.user, {
         displayName,
-        photoURL: filePath,
+        photoURL: `https://heroic-shark-loosely.ngrok-free.app/users/${userCredential.user.uid}/profile.png`
       });
       // resturn success
-      return res.status(200).json({ uid: userCredential.user.uid, email: userCredential.user.email, displayName, photoURL: filePath });
+      console('User created successfully', userCredential.user)
+      return res.status(200).json({ uid: userCredential.user.uid, email: userCredential.user.email, displayName: userCredential.user.displayName, photoURL: userCredential.user.photoURL });
 
     } catch (fileSaveError) {
       console.error('Error saving file:', fileSaveError);
