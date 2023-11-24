@@ -97,7 +97,7 @@ const register = async (req, res) => {
       //wrte vao folder tren desktop
       //fs.writeFileSync(`C:/Users/JakeHu/Desktop/test/upload/${userCredential.user.uid}/${fileName}`, imageBuffer);
        // Create user folder if it doesn't exist
-       const userFolderPath = path.join(__dirname, `/home/jake/Desktop/mini-ielts/users/${userId}`);
+       const userFolderPath = path.join(__dirname, `/home/jake/Desktop/mini-ielts/users/${userCredential.user.uid}`);
        if (!fs.existsSync(userFolderPath)) {
          fs.mkdirSync(userFolderPath, { recursive: true });
        }
