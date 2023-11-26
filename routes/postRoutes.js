@@ -12,6 +12,12 @@ router.get('/page/:page', postsController.getPosts);
 // Route để tạo bài viết mới
 router.post('/', authenticationMiddleware, AdminRole, postsController.createPost);
 
+//route save result
+router.post('/saveResult', authenticationMiddleware, postsController.saveResult);
+
+//get result
+router.get('/getUserResults', authenticationMiddleware, postsController.getUserResults);
+
 // Route để hiển thị chi tiết bài viết
 router.get('/:id', postsController.getPostById);
 
@@ -19,7 +25,7 @@ router.get('/:id', postsController.getPostById);
 router.put('/:id', postsController.updatePost);
 
 // Route để xóa bài viết
-router.delete('/:id', postsController.deletePost);
+router.delete('/:id',authenticationMiddleware, AdminRole, postsController.deletePost);
 
 
 //Route hiện danh sách bài vieert reading
@@ -32,4 +38,8 @@ router.post('/uploadAudio', postsController.uploadAudio);
 
 //Route post listening
 router.post('/creatListenPost', postsController.creatListenPost);
+
+//route save result
+router.post('/saveResult', postsController.saveResult);
+
 module.exports = router;

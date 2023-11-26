@@ -327,16 +327,35 @@ const updatePost = (req, res) => {
 // Logic để xóa bài viết
 const deletePost = (req, res) => {
   const postId = req.params.id;
-  db.query('DELETE FROM posts WHERE id = ?', [postId], (err, result) => {
-    if (err) {
-      console.error('Error deleting from database: ' + err);
-      return res.status(500).json({ error: 'Database error' });
-    }
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ error: 'Post not found' });
-    }
-    return res.json({ message: 'Post deleted successfully' });
-  });
+  try {
+    db.query('DELETE FROM posts WHERE post_id = ?', [postId], (err, result) => {
+      if (err) {
+        console.error('Error deleting from database: ' + err);
+        return res.status(500).json({ error: 'Database error' });
+      }
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: 'Post not found' });
+      }
+      // Xóa các phần và câu hỏi liên quan
+      db.query('DELETE FROM sections WHERE post_id = ?', [postId], (sectionErr, sectionResult) => {
+        if (sectionErr) {
+          console.error('Error deleting from database: ' + sectionErr);
+          return res.status(500).json({ error: 'Database error' });
+        }
+        db.query('DELETE FROM questions WHERE section_id IN (SELECT section_id FROM sections WHERE post_id = ?)', [postId], (questionErr, questionResult) => {
+          if (questionErr) {
+            console.error('Error deleting from database: ' + questionErr);
+            return res.status(500).json({ error: 'Database error' });
+          }
+        });
+      });
+      return res.json({ message: 'Post deleted successfully' });
+    });
+
+  } catch (error) {
+    console.error('Error deleting from database: ' + error);
+    return res.status(500).json({ error: 'Database error' });
+  };
 };
 
 const getListening = (req, res) => {
@@ -399,6 +418,35 @@ const getReading = (req, res) => {
   });
 }
 
+//save result of test
+const saveResult = (req, res) => {
+  const { id, point, selectedAnswers } = req.body;
+  var user_id = req.user.uid;
+  const post_id = id;
+  const result_id = uuidv4().slice(0, 10);
+  const answers = JSON.stringify(selectedAnswers);
+  console.log('save result', point);
+  db.query('INSERT INTO results (result_id, post_id, user_id, point, answers) VALUES (?, ?, ?, ?, ?)', [result_id, post_id, user_id, point, answers], (err, result) => {
+    if (err) {
+      console.error('Error inserting into results: ' + err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    return res.json({ message: 'Result saved successfully' });
+  });
+}
+
+const getUserResults = (req, res) => {
+  console.log('get result')
+  const user_id = req.user.uid;
+  db.query('SELECT * FROM results WHERE user_id = ?', [user_id], (err, results) => {
+    if (err) {
+      console.error('Error querying database: ' + err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    return res.json({ results: results });
+  });
+}
+
 
 
 module.exports = {
@@ -410,5 +458,7 @@ module.exports = {
   getListening,
   getReading,
   uploadAudio,
-  creatListenPost
+  creatListenPost,
+  saveResult,
+  getUserResults,
 };

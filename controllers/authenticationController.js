@@ -9,6 +9,7 @@ const path = require('path');
 const fs = require('fs');
 const { profile } = require('console');
 
+const adminArray = ["foreveralone1608@gmail.com", "admin@gmail.com"]
 
 
 
@@ -49,10 +50,15 @@ const login = async (req, res) => {
     console.log(user)
     //token
     const token = await user.getIdToken();
-    console.log(token);
-    console.log('User signed in:', user.uid, user.email, token);
-
-    return res.status(200).json({ uid: user.uid, email: user.email, token, displayName: user.displayName, photoURL: user.photoURL });
+    //role
+    if (adminArray.includes(email)) {
+      role = 'admin'
+    } else {
+      role = 'user'
+    }
+    //console.log(token);
+    //console.log('User signed in:', user.uid, user.email, token, role);
+    return res.status(200).json({ uid: user.uid, email: user.email, token, displayName: user.displayName, photoURL: user.photoURL, role: role });
   } catch (error) {
     console.error('Error signing in:', error);
     return res.status(401).json({ error: 'Invalid credentials' });
