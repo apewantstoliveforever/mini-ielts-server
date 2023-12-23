@@ -50,6 +50,9 @@ const login = async (req, res) => {
     console.log(user)
     //token
     const token = await user.getIdToken();
+    //get refresh token
+    const refreshToken = user.refreshToken;
+    console.log('resfreshtoken', refreshToken);
     //role
     if (adminArray.includes(email)) {
       role = 'admin'
@@ -58,7 +61,7 @@ const login = async (req, res) => {
     }
     //console.log(token);
     //console.log('User signed in:', user.uid, user.email, token, role);
-    return res.status(200).json({ uid: user.uid, email: user.email, token, displayName: user.displayName, photoURL: user.photoURL, role: role });
+    return res.status(200).json({ uid: user.uid, email: user.email, token, refreshToken, displayName: user.displayName, photoURL: user.photoURL, role: role });
   } catch (error) {
     console.error('Error signing in:', error);
     return res.status(401).json({ error: 'Invalid credentials' });

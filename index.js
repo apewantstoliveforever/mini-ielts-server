@@ -62,6 +62,9 @@ app.use('/posts', postsRouter);
 const loginIeltsRouter = require('./routes/loginIeltsRoutes');
 // Sử dụng các route trong ứng dụng
 app.use('/loginIeltsRoutes', loginIeltsRouter);
+//route api
+const apiRouter = require('./routes/apiRoutes');
+app.use('/api', apiRouter);
 
 // Import thư viện multer
 const multer = require('multer');

@@ -1,5 +1,22 @@
 
-GET http://localhost:3002/posts
+POST http://localhost:3002/api/refreshToken
+content-type: application/json
+
+{
+  "refreshToken": "sssssssssssssss"
+}
+###
+GET http://localhost:3002/loginIeltsRoutes/login
+Content-Type: application/json
+
+{
+    "email": "hotranphihung@mgail.com",
+    "password": "123456"
+}
+
+###
+
+GET http://localhost:3002/posts//reading/1
 ###
 GET http://localhost:3002/posts/f2390270-b
 
