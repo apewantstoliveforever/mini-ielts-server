@@ -118,7 +118,19 @@ const register = async (req, res) => {
       });
       // resturn success
       console.log('User created successfully', userCredential.user)
-      return res.status(200).json({ uid: userCredential.user.uid, email: userCredential.user.email, displayName: userCredential.user.displayName, photoURL: userCredential.user.photoURL });
+      //token
+      const token = await userCredential.user.getIdToken();
+      //get refresh token
+      const refreshToken = userCredential.user.refreshToken;
+      //role
+      if (adminArray.includes(email)) {
+        role = 'admin'
+      } else {
+        role = 'user'
+      }
+      //console.log(token);
+      
+      return res.status(200).json({ uid: user.uid, email: user.email, token, refreshToken, displayName: user.displayName, photoURL: user.photoURL, role: role });
 
     } catch (fileSaveError) {
       console.error('Error saving file:', fileSaveError);
