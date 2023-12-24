@@ -27,7 +27,7 @@ const refreshToken = async (req, res, next) => {
         });
         console.log(response.data);
         const { id_token, refresh_token } = response.data;
-        res.status(200).json({ id_token, refresh_token });
+        res.status(200).json({ token: id_token, refreshToken: refresh_token });
 
     } catch (error) {
         console.log(error);

@@ -1,22 +1,45 @@
 
+POST https://securetoken.googleapis.com/v1/token?key=AIzaSyAPnRzT1qySbDDEfiEJBquEG25GA89W39c
+content-type: application/json
+
+{
+  "grant_type": "refresh_token",
+  "refresh_token": "AMf-vBxAt98Q0FIAFBDoA2sU4Sl-QMJrL8_yBiV2_Su5PS-d6Hp825m_1qYfaLwQkWLNor_b5xfR00MXQphsk2eT6mYIXzgZrvZI5O2L6mfp6Sw_jhHJwRvbY2KmOoiNv_2o6Xc-NWFkFao84NEMNbsVfBvdwfHjzYg1-Ksq80FGFLrhqD0-dwZh892YfS_iU7MMlC0CzjbVN-b2JdqXdT9pzRpyV_do_xySGIlp80Lzw7B4CuYrcP8",
+}
+###
+POST https://api-blog.apewannaliveforever.online/api/refreshToken
+content-type: application/json
+
+{
+  "refreshToken": "AMf-vBxKRjAqRGkEJoy9JHk0Qr2syscUh3kqMKhi-ukvmNuekNMLF1K68Sv5qdR-ZpoiqxsbHW7Fq2YJm5BHtFKmvrw8LneUgUQiI8KutkcX3EDfouQ6Us8IKQZoLvd4NHqMeuUEk2oJSqUvstj639kiG2cfOBc0027fpN2gJ2zt0oeHZEy2yB4WvAc1geF0NgponV2zkGv904RNv0Ew5C0Jw9mW9tMzsoztGdcW2jOlA6DnAN_P0HI"
+}
+###
+POST https://api-blog.apewannaliveforever.online/loginIeltsRoutes/login
+content-Type: application/json
+
+{
+    "email": "admin12345@gmail.com",
+    "password": "0906894742"
+}
+###
 POST http://localhost:3002/api/refreshToken
 content-type: application/json
 
 {
-  "refreshToken": "sssssssssssssss"
+  "refreshToken": "AMf-vBxKRjAqRGkEJoy9JHk0Qr2syscUh3kqMKhi-ukvmNuekNMLF1K68Sv5qdR-ZpoiqxsbHW7Fq2YJm5BHtFKmvrw8LneUgUQiI8KutkcX3EDfouQ6Us8IKQZoLvd4NHqMeuUEk2oJSqUvstj639kiG2cfOBc0027fpN2gJ2zt0oeHZEy2yB4WvAc1geF0NgponV2zkGv904RNv0Ew5C0Jw9mW9tMzsoztGdcW2jOlA6DnAN_P0HI"
 }
 ###
-GET http://localhost:3002/loginIeltsRoutes/login
-Content-Type: application/json
+POST http://localhost:3002/loginIeltsRoutes/login
+content-Type: application/json
 
 {
-    "email": "hotranphihung@mgail.com",
-    "password": "123456"
+    "email": "admin12345@gmail.com",
+    "password": "0906894742"
 }
 
 ###
 
-GET http://localhost:3002/posts//reading/1
+GET http://localhost:3002/posts/reading/1
 ###
 GET http://localhost:3002/posts/f2390270-b
 
