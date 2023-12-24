@@ -129,7 +129,8 @@ const register = async (req, res) => {
         role = 'user'
       }
       //console.log(token);
-      
+      const user = userCredential.user;
+
       return res.status(200).json({ uid: user.uid, email: user.email, token, refreshToken, displayName: user.displayName, photoURL: user.photoURL, role: role });
 
     } catch (fileSaveError) {
