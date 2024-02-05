@@ -15,7 +15,8 @@ require('dotenv').config({
 const adminArray = ["foreveralone1608@gmail.com", "admin@gmail.com"]
 
 //get ngrok url from .env file
-const ngrokUrl = process.env.NGROK_URL;
+// const ngrokUrl = process.env.NGROK_URL;
+const ngrokUrl = 'https://excited-crab-discrete.ngrok-free.app';
 
 // // Replace with the path to your service account key JSON file
 // const serviceAccount = require('../serviceAccountKey.json');
