@@ -8,10 +8,14 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const { profile } = require('console');
+require('dotenv').config({
+  path: './config/config.env'
+});
 
 const adminArray = ["foreveralone1608@gmail.com", "admin@gmail.com"]
 
-
+//get ngrok url from .env file
+const ngrokUrl = process.env.NGROK_URL;
 
 // // Replace with the path to your service account key JSON file
 // const serviceAccount = require('../serviceAccountKey.json');
@@ -114,7 +118,7 @@ const register = async (req, res) => {
       // Update the user's profile
       await updateProfile(userCredential.user, {
         displayName,
-        photoURL: `https://heroic-shark-loosely.ngrok-free.app/users/${userCredential.user.uid}/profile.png`
+        photoURL: `${ngrokUrl}/users/${userCredential.user.uid}/profile.png`
       });
       // resturn success
       console.log('User created successfully', userCredential.user)
