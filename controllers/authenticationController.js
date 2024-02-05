@@ -134,8 +134,9 @@ const register = async (req, res) => {
       }
       //console.log(token);
       const user = userCredential.user;
+      const photoProfile = `${ngrokUrl}/users/${userCredential.user.uid}/profile.png`;
 
-      return res.status(200).json({ uid: user.uid, email: user.email, token, refreshToken, displayName: user.displayName, photoURL: user.photoURL, role: role });
+      return res.status(200).json({ uid: user.uid, email: user.email, token, refreshToken, displayName: user.displayName, photoURL: photoProfile, role: role });
 
     } catch (fileSaveError) {
       console.error('Error saving file:', fileSaveError);
