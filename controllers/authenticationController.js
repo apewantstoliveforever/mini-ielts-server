@@ -58,6 +58,8 @@ const login = async (req, res) => {
     //get refresh token
     const refreshToken = user.refreshToken;
     console.log('resfreshtoken', refreshToken);
+    const photoProfile = `${ngrokUrl}/users/${userCredential.user.uid}/profile.png`;
+
     //role
     if (adminArray.includes(email)) {
       role = 'admin'
@@ -66,7 +68,7 @@ const login = async (req, res) => {
     }
     //console.log(token);
     //console.log('User signed in:', user.uid, user.email, token, role);
-    return res.status(200).json({ uid: user.uid, email: user.email, token, refreshToken, displayName: user.displayName, photoURL: user.photoURL, role: role });
+    return res.status(200).json({ uid: user.uid, email: user.email, token, refreshToken, displayName: user.displayName, photoURL: photoProfile, role: role });
   } catch (error) {
     console.error('Error signing in:', error);
     return res.status(401).json({ error: 'Invalid credentials' });
