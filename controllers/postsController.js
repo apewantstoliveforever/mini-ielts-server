@@ -3,6 +3,7 @@ const mysql = require('mysql2');
 const multer = require('multer');
 //dùng uuid để tạo id cho image
 const { v4: uuidv4 } = require('uuid');
+const axios = require('axios');
 
 
 // const db = mysql.createConnection({
@@ -447,6 +448,58 @@ const getUserResults = (req, res) => {
   });
 }
 
+const getTraffic = (req, res) => {
+  const email = "hotranphihung@gmail.com";
+  const apiKey = "74c7da815ef6c9699b13aad7df9b5204b8818";
+  const zoneTag = "4d1c6770911b9bc0bfecc96baed97502";
+  const axios = require('axios');
+  const url = 'https://api.cloudflare.com/client/v4/graphql';
+  let query = {"query":"{\n  viewer {\n    zones(filter: { zoneTag: " + zoneTag + " }) {\n      httpRequests1dGroups(\n        orderBy: [date_ASC]\n        limit: 1000\n        filter: { date_gt: \"2019-07-15\" }\n      ) {\n        date: dimensions {\n          date\n        }\n        sum {\n          cachedBytes\n          bytes\n        }\n      }\n    }\n  }\n}","variables":{}}
+
+  async function fetchData() {
+    try {
+      const response = await axios.post(
+        url,
+        {
+          query: `
+            {
+              viewer {
+                zones(filter: { zoneTag: "4d1c6770911b9bc0bfecc96baed97502" }) {
+                  httpRequests1dGroups(
+                    filter: { date_gt: "2024-02-10" }
+                    orderBy: [date_ASC]
+                    limit: 10000
+                  ) {
+                    dimensions { date }
+                    sum {
+                      requests,
+                      pageViews
+                    }
+                  }
+                }
+              }
+            }
+          `
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Auth-Email': email,
+            'X-Auth-Key': apiKey
+          }
+        }
+      );
+
+      console.log(response.data.data);
+      return res.json({ data: response.data.data });
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+
+  fetchData();
+};
+
 
 
 module.exports = {
@@ -461,4 +514,5 @@ module.exports = {
   creatListenPost,
   saveResult,
   getUserResults,
+  getTraffic
 };
