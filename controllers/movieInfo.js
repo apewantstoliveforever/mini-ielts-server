@@ -31,10 +31,11 @@ const getMovieInfo = (req, res) => {
 };
 
 const getALlMoviesInPage = (req, res) => {
-    //parameters are sent in the request object
-    const page = req.params.page;
-    //get movie info from the database
-    db.query('SELECT * FROM Movies LIMIT ?, 20', [page], (err, results) => {
+    // parameters are sent in the request object
+    const page = parseInt(req.params.page); // Parse the page parameter to ensure it's an integer
+    // get movie info from the database
+    const offset = (page - 1) * 20; // Calculate the offset based on the page number
+    db.query('SELECT * FROM Movies LIMIT ?, 20', [offset], (err, results) => {
         if (err) {
             console.log(err);
             res.status(500).send('Internal Server Error');
@@ -47,6 +48,7 @@ const getALlMoviesInPage = (req, res) => {
         }
     });
 };
+
 
 const getNumberOfPages = (req, res) => {
     //get number of page each page has 20 movies
