@@ -115,5 +115,6 @@ module.exports = {
     getMovieInfo,
     getALlMoviesInPage,
     getNumberOfPages,
-    getMoviesByGenre
+    getMoviesByGenre,
+    searchMovies
 };
