@@ -76,7 +76,7 @@ const getMoviesByGenre = (req, res) => {
     console.log(genre);
     
     // Get movie IDs from the database based on genre
-    db.query('SELECT * FROM MovieGenres WHERE genre = ?', [genre], (err, results) => {
+    db.query('SELECT * FROM MovieGenres WHERE genre_id = ?', [genre], (err, results) => {
         if (err) {
             console.log(err);
             res.status(500).send('Internal Server Error');
