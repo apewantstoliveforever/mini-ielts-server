@@ -50,17 +50,23 @@ const getALlMoviesInPage = (req, res) => {
 
 const getNumberOfPages = (req, res) => {
     //get number of page each page has 20 movies
-    db.query('SELECT COUNT(*) FROM Movies', (err, results) => {
-        if (err) {
-            console.log(err);
-            res.status(500).send('Internal Server Error');
-        } else {
-            res.status(200).send(results[0]);
-        }
-    });
-    //number of page = number of movies / 20
-    const numberOfPage = results[0] / 20;
-    return numberOfPage;
+    try {
+        db.query('SELECT COUNT(*) FROM Movies', (err, results) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send('Internal Server Error');
+            } else {
+                res.status(200).send(results[0]);
+            }
+        });
+        //number of page = number of movies / 20
+        const numberOfPage = results[0] / 20;
+        return res.status(200).send(numberOfPage);
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).send('Internal Server Error');
+    }
 };
 
 module.exports = {
