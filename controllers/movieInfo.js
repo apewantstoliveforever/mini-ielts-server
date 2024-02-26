@@ -73,6 +73,7 @@ const getNumberOfPages = (req, res) => {
 const getMoviesByGenre = (req, res) => {
     // Parameters are sent in the request object
     const genre = req.params.genre;
+    console.log(genre);
     
     // Get movie info from the database based on genre
     db.query('SELECT m.* FROM Movies m INNER JOIN MovieGenres mg ON m.id = mg.movie_id INNER JOIN Genres g ON mg.genre_id = g.id WHERE g.name = ?', [genre], (err, results) => {
