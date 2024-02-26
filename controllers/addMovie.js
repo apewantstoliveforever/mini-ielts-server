@@ -51,7 +51,20 @@ const addMovie = (movieData, callback) => {
                 return callback(err);
             }
 
+            // Call the callback after insertGenreQuery finishes
             callback(null, movieId);
+        });
+    });
+};
+
+const addMovieAsync = (movieData) => {
+    return new Promise((resolve, reject) => {
+        addMovie(movieData, (err, movieId) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(movieId);
+            }
         });
     });
 };
@@ -95,30 +108,21 @@ const movieData = {
 // });
 
 
-const addListMovies = (req, res) => {
+const addListMovies = async (req, res) => {
     const movies = jsonFile;
 
-    // Function to recursively add movies
-    const addMovieAtIndex = (index) => {
-        if (index < movies.length) {
-            addMovie(movies[index], (err, movieId) => {
-                if (err) {
-                    console.error('Error adding movie:', err);
-                } else {
-                    console.log('Movie added with ID:', movieId);
-                }
-                // Call the next movie after current movie is added
-                addMovieAtIndex(index + 1);
-            });
-        } else {
-            console.log('All movies added');
-            // Optionally, you can send a response here if this function is part of an HTTP request handler
-            // res.status(200).send('All movies added');
+    try {
+        for (const movie of movies) {
+            const movieId = await addMovieAsync(movie);
+            console.log('Movie added with ID:', movieId);
         }
-    };
-
-    // Start adding movies from the first index
-    addMovieAtIndex(0);
+        // Optionally, you can send a response here if this function is part of an HTTP request handler
+        res.status(200).send('All movies added');
+    } catch (error) {
+        console.error('Error adding movies:', error);
+        // Optionally, handle error and send appropriate response
+        res.status(500).send('Error adding movies');
+    }
 };
 
 addListMovies();
