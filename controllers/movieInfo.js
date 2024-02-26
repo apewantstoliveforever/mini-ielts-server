@@ -93,8 +93,8 @@ const getMoviesByGenre = (req, res) => {
 const searchMovies = (req, res) => {
     // Parameters are sent in the request object
     const search = req.params.search;
-    // Get movie info from the database based on search
-    db.query('SELECT * FROM Movies WHERE title LIKE ?', [`%${search}%`], (err, results) => {
+    // Get movie info from the database based on search, limiting to 5 results
+    db.query('SELECT * FROM Movies WHERE title LIKE ? LIMIT 5', [`%${search}%`], (err, results) => {
         if (err) {
             console.log(err);
             res.status(500).send('Internal Server Error');
@@ -107,6 +107,7 @@ const searchMovies = (req, res) => {
         }
     });
 }
+
 
 
 
