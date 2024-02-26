@@ -117,11 +117,11 @@ const addListMovies = async (req, res) => {
             console.log('Movie added with ID:', movieId);
         }
         // Optionally, you can send a response here if this function is part of an HTTP request handler
-        res.status(200).send('All movies added');
+        // res.status(200).send('All movies added');
     } catch (error) {
         console.error('Error adding movies:', error);
         // Optionally, handle error and send appropriate response
-        res.status(500).send('Error adding movies');
+        // res.status(500).send('Error adding movies');
     }
 };
 
