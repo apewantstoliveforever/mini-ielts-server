@@ -90,6 +90,24 @@ const getMoviesByGenre = (req, res) => {
     });
 };
 
+const searchMovies = (req, res) => {
+    // Parameters are sent in the request object
+    const search = req.params.search;
+    // Get movie info from the database based on search
+    db.query('SELECT * FROM Movies WHERE title LIKE ?', [`%${search}%`], (err, results) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send('Internal Server Error');
+        } else {
+            if (results.length > 0) {
+                res.status(200).send(results);
+            } else {
+                res.status(404).send('Movies not found for this search');
+            }
+        }
+    });
+}
+
 
 
 

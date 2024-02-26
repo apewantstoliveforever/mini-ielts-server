@@ -15,5 +15,6 @@ router.get('/movieInfo/:movieId', movieInfo.getMovieInfo);
 router.get('/page/:page', movieInfo.getALlMoviesInPage);
 router.get('/pages', movieInfo.getNumberOfPages);
 router.get('/genre/:genre', movieInfo.getMoviesByGenre);
+router.get('/search/:search', movieInfo.searchMovies);
 
 module.exports = router;
