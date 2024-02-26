@@ -76,13 +76,13 @@ const movieData = {
     "updated": "2021-11-01T04:14:43.814+00:00"
 }
 
-addMovie(movieData, (err, movieId) => {
-    if (err) {
-        console.error('Error adding movie:', err);
-    } else {
-        console.log('Movie added with ID:', movieId);
-    }
-});
+// addMovie(movieData, (err, movieId) => {
+//     if (err) {
+//         console.error('Error adding movie:', err);
+//     } else {
+//         console.log('Movie added with ID:', movieId);
+//     }
+// });
 
 
 // addMovie(movieData, (err, movieId) => {
@@ -118,7 +118,7 @@ const addListMovies = (req, res) => {
     }
 };
 
-// addListMovies();
+addListMovies();
 
 // Export the controller function
 module.exports = { addMovie, addListMovies };
