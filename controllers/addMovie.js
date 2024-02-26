@@ -95,28 +95,30 @@ const movieData = {
 // });
 
 
-//add list of movies from json file
 const addListMovies = (req, res) => {
-
-    console.log(jsonFile[0]);
     const movies = jsonFile;
 
-    //add new movie to the database
-    try {
-        movies.forEach((movie) => {
-            addMovie(movie, (err, movieId) => {
+    // Function to recursively add movies
+    const addMovieAtIndex = (index) => {
+        if (index < movies.length) {
+            addMovie(movies[index], (err, movieId) => {
                 if (err) {
                     console.error('Error adding movie:', err);
                 } else {
                     console.log('Movie added with ID:', movieId);
                 }
+                // Call the next movie after current movie is added
+                addMovieAtIndex(index + 1);
             });
+        } else {
+            console.log('All movies added');
+            // Optionally, you can send a response here if this function is part of an HTTP request handler
+            res.status(200).send('All movies added');
         }
-        );
-    }
-    catch (error) {
-        console.log(error);
-    }
+    };
+
+    // Start adding movies from the first index
+    addMovieAtIndex(0);
 };
 
 addListMovies();
