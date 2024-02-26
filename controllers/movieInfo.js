@@ -81,6 +81,7 @@ const getMoviesByGenre = (req, res) => {
             console.log(err);
             res.status(500).send('Internal Server Error');
         } else {
+            console.log(results);
             if (results.length > 0) {
                 res.status(200).send(results);
             } else {
@@ -89,6 +90,7 @@ const getMoviesByGenre = (req, res) => {
         }
     });
 };
+
 
 
 module.exports = {
