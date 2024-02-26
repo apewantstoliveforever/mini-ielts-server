@@ -16,7 +16,7 @@ const getMovieInfo = (req, res) => {
     //parameters are sent in the request object
     const movieId = req.params.movieId;
     //get movie info from the database
-    db.query('SELECT * FROM movies WHERE id = ?', [movieId], (err, results) => {
+    db.query('SELECT * FROM Movies WHERE id = ?', [movieId], (err, results) => {
         if (err) {
             console.log(err);
             res.status(500).send('Internal Server Error');
