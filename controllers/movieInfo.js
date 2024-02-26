@@ -75,8 +75,8 @@ const getMoviesByGenre = (req, res) => {
     const genre = req.params.genre;
     console.log(genre);
     
-    // Get movie IDs from the database based on genre
-    db.query('SELECT * FROM MovieGenres WHERE genre_id = ?', [genre], (err, results) => {
+    // Get movie info from the database based on genre
+    db.query('SELECT m.* FROM Movies m INNER JOIN MovieGenres mg ON m.id = mg.movie_id WHERE mg.genre_id = ?', [genre], (err, results) => {
         if (err) {
             console.log(err);
             res.status(500).send('Internal Server Error');
@@ -84,11 +84,12 @@ const getMoviesByGenre = (req, res) => {
             if (results.length > 0) {
                 res.status(200).send(results);
             } else {
-                res.status(404).send('Movie not found');
+                res.status(404).send('Movies not found for this genre');
             }
         }
     });
 };
+
 
 
 
