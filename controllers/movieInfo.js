@@ -64,5 +64,7 @@ const getNumberOfPages = (req, res) => {
 };
 
 module.exports = {
-    getMovieInfo
+    getMovieInfo,
+    getALlMoviesInPage,
+    getNumberOfPages
 };
