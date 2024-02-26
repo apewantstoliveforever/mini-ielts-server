@@ -69,9 +69,30 @@ const getNumberOfPages = (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 };
+//get all movies based on genre
+const getMoviesByGenre = (req, res) => {
+    // Parameters are sent in the request object
+    const genre = req.params.genre;
+    
+    // Get movie info from the database based on genre
+    db.query('SELECT m.* FROM Movies m INNER JOIN MovieGenres mg ON m.id = mg.movie_id INNER JOIN Genres g ON mg.genre_id = g.id WHERE g.name = ?', [genre], (err, results) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send('Internal Server Error');
+        } else {
+            if (results.length > 0) {
+                res.status(200).send(results);
+            } else {
+                res.status(404).send('Movies not found for this genre');
+            }
+        }
+    });
+};
+
 
 module.exports = {
     getMovieInfo,
     getALlMoviesInPage,
-    getNumberOfPages
+    getNumberOfPages,
+    getMoviesByGenre
 };
