@@ -56,12 +56,9 @@ const getNumberOfPages = (req, res) => {
                 console.log(err);
                 res.status(500).send('Internal Server Error');
             } else {
-                res.status(200).send(results[0]);
+                res.status(200).send(results[0]/20);
             }
         });
-        //number of page = number of movies / 20
-        const numberOfPage = results[0] / 20;
-        return res.status(200).send(numberOfPage);
     }
     catch (error) {
         console.log(error);
