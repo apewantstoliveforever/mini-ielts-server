@@ -42,6 +42,7 @@ const addMovie = (movieData, callback) => {
 
         // Create an array of genre values to insert
         const genreValues = genreIds.map(genreId => [movieId, genreId]);
+        console.log(genreValues);
 
         // Insert the genre associations into the MovieGenres table
         db.query(insertGenreQuery, [genreValues], (err) => {
