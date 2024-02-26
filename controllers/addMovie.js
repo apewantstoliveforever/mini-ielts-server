@@ -113,7 +113,7 @@ const addListMovies = (req, res) => {
         } else {
             console.log('All movies added');
             // Optionally, you can send a response here if this function is part of an HTTP request handler
-            res.status(200).send('All movies added');
+            // res.status(200).send('All movies added');
         }
     };
 
