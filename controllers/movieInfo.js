@@ -57,7 +57,7 @@ const getNumberOfPages = (req, res) => {
                 res.status(500).send('Internal Server Error');
             } else {
                 // res.status(200).send(results[0]/20);
-                console.log(results);
+                console.log(results[0]);
             }
         });
     }
