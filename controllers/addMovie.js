@@ -125,7 +125,7 @@ const addListMovies = async (req, res) => {
     }
 };
 
-addListMovies();
+// addListMovies();
 
 // Export the controller function
 module.exports = { addMovie, addListMovies };
