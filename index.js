@@ -66,6 +66,9 @@ app.use('/loginIeltsRoutes', loginIeltsRouter);
 const apiRouter = require('./routes/apiRoutes');
 app.use('/api', apiRouter);
 
+// Import các tệp route
+const movieRouter = require('./routes/movieRoutes');
+app.use('/movie', movieRouter);
 // Import thư viện multer
 const multer = require('multer');
 const storage = multer.diskStorage({

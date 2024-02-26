@@ -35,6 +35,8 @@ router.post('/saveResult', postsController.saveResult);
 
 router.get('/traffic', postsController.getTraffic);
 
+router.get('/viewer-location', postsController.getViewerLocation);
+
 // Route để hiển thị chi tiết bài viết
 router.get('/:id', postsController.getPostById);
 
