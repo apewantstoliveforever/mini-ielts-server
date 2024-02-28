@@ -3,16 +3,57 @@ require('dotenv').config({
 });
 const helmet = require('helmet');
 
+const http = require('http');
+const socketIo = require('socket.io');
+
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 5000;
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const { createChatbotResponse } = require('./chatgpt/chatgpt'); // Implement your GPT-based chatbot logic
 
+app.use(helmet());
+
+app.use(bodyParser.json({ limit: '5mb' }));
+app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
+
+const corsOptions = {
+  origin: ['http://localhost:3000','http://localhost:3005', "https://apewannaliveforever.online", "https://mini-cae-toeic.site"] 
+};
+
+
+const server = http.createServer(app);
+const io = socketIo(server, {
+  cors: {
+    origin: ['http://localhost:3000','http://localhost:3005', "https://apewannaliveforever.online", "https://mini-cae-toeic.site"] 
+  }
+});
+app.use(cors(corsOptions));
 
 const { initializeApp } = require('firebase/app');
 const { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } = require('firebase/auth');
 const admin = require('firebase-admin');
+
+io.on('connection', (socket) => {
+  console.log('a user connected');
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+  socket.on('message', async ({ username, message }) => {
+    console.log('Received message:', message, 'from:', username);
+    if (username === 'jake') {
+      // Handle message and send response
+      // For example, you can use GPT to generate a response here
+      const response = await createChatbotResponse(message);
+      socket.emit('message', response);
+    } else {
+      console.log('User is not authorized to receive response.');
+      socket.emit('message', 'You are not authorized to receive response.');
+    }
+  }
+  );
+});
 
 // Replace with the path to your service account key JSON file
 const serviceAccount = require('./serviceAccountKey.json');
@@ -37,16 +78,6 @@ initializeApp(firebaseConfig);
 // Initialize Firebase Auth
 const auth = getAuth();
 
-app.use(helmet());
-
-app.use(bodyParser.json({ limit: '5mb' }));
-app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
-
-const corsOptions = {
-  origin: ['http://localhost:3000','http://localhost:3005', "https://apewannaliveforever.online", "https://mini-cae-toeic.site"] 
-};
-
-app.use(cors(corsOptions));
 
 // Import các tệp route
 const mangasRouter = require('./routes/mangaRoutes');
@@ -101,6 +132,10 @@ app.get('/', (req, res) => {
 });
 
 // Start the server
-app.listen(port, () => {
+// app.listen(port, () => {
+//   console.log(`Server is listening on port ${port}`);
+// });
+
+server.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
